@@ -145,6 +145,6 @@ def create_sleep_regularity_data():
     df_sleep_regularity.to_csv('sleep_regularity.csv', index=False)
 
 
-if __name__ == '__main__':
-    # create_sleep_summary()
-    create_sleep_regularity_data()
+# if __name__ == '__main__':
+#     # create_sleep_summary()
+#     # create_sleep_regularity_data()
