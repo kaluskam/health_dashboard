@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap');
+
+body {
+    background-color: #000;
+    font-family: 'Rubik', sans-serif;
+}
+
+.info-card {
+    font-size: 1.2rem;
+    background-color: #52057b;
+}
+
+.s-row {
+    background-color: #1d1d1d;
+    border-radius: 20px;
+}
