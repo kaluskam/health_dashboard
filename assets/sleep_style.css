@@ -1,0 +1,66 @@
+.label {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+div[class^="rc-slider"] {
+    border-color: #52057b;
+}
+
+.rc-slider-track {
+    background-color: #52057b;
+}
+
+.rc-slider-handle {
+    border: solid 2px #52057b;
+}
+
+.rc-slider-handle:hover {
+    border-color: #bc6ff1;
+}
+
+.rc-slider-dot {
+    border-color: #52057b;
+}
+
+.rc-slider-mark-text {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+
+    color: white;
+}
+
+.rc-slider-mark-text:active {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+
+    color: white;
+}
+
+
+.radio-items label {
+    margin: 10px;
+    padding: 5px;
+}
+
+/*.check-list label {*/
+/*    margin: 10px;*/
+/*    padding: 5px;*/
+/*}*/
+
+#sleep-regularity-plot {
+    width: 40vh;
+}
+
+.name-label {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.clock-graph {
+    /*width: 40vh;*/
+    /*height: 40vh;*/
+    /*!*display: inline-block;*!*/
+    /*font-weight: bold*/
+    color: white;
+}

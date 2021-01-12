@@ -3,8 +3,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from app import app
-from apps import stress
-
+from apps import stress, sleep, steps
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -17,10 +16,12 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/apps/stress':
         return stress.layout
-    # elif pathname == '/apps/app2':
-    #     return app2.layout
+    elif pathname == '/apps/sleep':
+        return sleep.layout
+    elif pathname == '/apps/steps':
+        return steps.layout
     else:
-        return '404'
+        return sleep.layout
 
 
 if __name__ == '__main__':

@@ -57,6 +57,7 @@ oxy_fig.layout.font.family = 'Rubik'
 
 hr_dist_fig = ff.create_distplot([df2['heart_rate']], ['distplot'], show_hist=False, show_rug=False)
 
+
 layout = html.Div([
     navbar,
 
