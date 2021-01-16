@@ -144,3 +144,4 @@ def create_sleep_regularity_data():
     df_sleep_regularity['std'] = df_sleep_regularity['std'].apply(lambda x: round(x, 2))
     df_sleep_regularity.to_csv('sleep_regularity.csv', index=False)
 
+#create_sleep_regularity_data()

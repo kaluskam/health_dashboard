@@ -56,7 +56,7 @@ layout = html.Div([
                     dbc.Card([
                         dbc.CardHeader("Average distance"),
                         dbc.CardBody([html.H3(
-                            str(steps_summary_mean.iloc[i, 0]) + ": " + str(steps_summary_mean.iloc[i, 2]) + "km\n")
+                            str(steps_summary_mean.iloc[i, 0]) + ": " + str(steps_summary_mean.iloc[i, 2]) + " m\n")
                                       for i in range(len(steps_summary_mean))])
                     ],
                         inverse=True,
@@ -67,7 +67,7 @@ layout = html.Div([
                     dbc.Card([
                         dbc.CardHeader("Maximum distance"),
                         dbc.CardBody([html.H3(
-                            str(steps_summary_max.iloc[i, 0]) + ": " + str(steps_summary_max.iloc[i, 3]) + "km\n")
+                            str(steps_summary_max.iloc[i, 0]) + ": " + str(steps_summary_max.iloc[i, 3]) + " m\n")
                                       for i in range(len(steps_summary_max))])
                     ],
                         inverse=True,
@@ -78,7 +78,7 @@ layout = html.Div([
 
         dbc.Row([
             dbc.Col([
-            html.Label('Choose type'),
+            html.Label('Choose type', style={'font-weight': 'bold'}),
             dcc.RadioItems(
                 id="slct_type",
                 options=[
@@ -87,29 +87,31 @@ layout = html.Div([
                 ],
                 value='step_count',
                 className="radio-items"
-            ),
-            html.Label('Select period'),
+            )], width= 3),
+            dbc.Col([
+            html.Label('Select period', style={'font-weight': 'bold'}),
             dcc.Dropdown(id="slct_period",
                          options=[
                              {"label": "daily", "value": "daily"},
                              {"label": "weekly", "value": "weekly"}],
                          multi=False,
                          value="daily",
-                         style={'width': "40%", "color:": "black"}
+                         style={'width': "100%", "color": "black", "text-color": "black"}
                          ),
 
             dcc.Checklist(id="top3",
-                          options=[
-                              {'label': '   Show top 3', 'value': 'top'}
-                          ],
+                          # options=[
+                          #     {'label': '   Show top 3', 'value': 'top'}
+                          # ],
                           ),
             ], width= 3),
-            dbc.Col(
+
+        ], style={"margin-top": "40px"}),
+        dbc.Row(
             dcc.Graph(
                 id='barplot',
                 style={'width': "100%"}
-            ), width=9, style={'margin': '0'}),
-        ], style={"margin-top": "40px"})
+            ),  style={'margin': '0'})
     ])
 ])
 
@@ -123,23 +125,19 @@ layout = html.Div([
      Input(component_id='top3', component_property='value')]
 )
 def update_graph(option_slctd, period_slctd, top):
-    print(option_slctd)
-    print(period_slctd)
-    print(top)
-
     colors_1 = ['#52057b', '#892cdc', '#bc6ff1']
 
     df = steps.copy()
     if period_slctd == "daily":
         fig = px.bar(df, x="date", y=option_slctd, color="user", barmode="group", labels={'step_count': 'step count'},
-                     title="step count" if str(option_slctd) == "step_count" else "distance",
+                     title="Step count" if str(option_slctd) == "step_count" else "Distance",
                      color_discrete_sequence=colors_1)
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(size=14, color="white"))
         fig.layout.font.family = 'Rubik'
     elif period_slctd == "weekly":
         fig = px.bar(steps_weekly, x="date", y=option_slctd, color="user", barmode="group",
-                     labels={'step_count': 'step count'},
-                     title="step count" if str(option_slctd) == "step_count" else "distance",
+                     labels={'step_count': 'Step count'},
+                     title="Step count" if str(option_slctd) == "step_count" else "Distance",
                      color_discrete_sequence=colors_1)
 
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(size=14, color="white"))
@@ -184,20 +182,20 @@ def update_graph(option_slctd, period_slctd, top):
                     y=dff[str(option_slctd)].loc[dff['color'] == 'max_1'],
                     offsetgroup=0,
                     base=dff["date"].loc[dff['color'] == 'max_1'],
-                    marker=dict(color="green")
+                    marker=dict(color="#EF233C")
                 ),
                 go.Bar(
                     name="Top 3 - Marysia",
                     x=dff["date"].loc[dff['color'] == 'max_2'],
                     y=dff[str(option_slctd)].loc[dff['color'] == 'max_2'],
                     offsetgroup=1,
-                    marker=dict(color="lime")
+                    marker=dict(color="#d80032")
                 ),
             ],
             layout=go.Layout(
                 yaxis_title="date",
-                xaxis_title="step count" if str(option_slctd) == "step_count" else "distance",
-                title="step count" if str(option_slctd) == "step_count" else "distance",
+                xaxis_title="Step count" if str(option_slctd) == "step_count" else "Distance",
+                title="Step count" if str(option_slctd) == "step_count" else "Distance",
                 font = dict(size=14, color="white"),
             )
         )
