@@ -92,12 +92,23 @@ def sleep_clock_dict(df):
 
 def sleep_regularity_scatter_plot(df, period):
     df = df[df['period'] == period]
-    fig = px.scatter(df, x='user', y='std_min', size=[3, 3, 3],
+    fig = px.scatter(df, x='user', y='std_min', size=[4, 4, 4],
                      labels={
                          'std_min': 'Standard deviation [min]',
                          'user': ''
                      })
 
-    fig.update_traces(marker=dict(color=['#007bff', '#007bff', '#007bff']), hoverinfo='skip',
+    fig.update_traces(marker=dict(color=['#52057b', '#52057b', '#52057b']), hoverinfo='skip',
                       hovertemplate="%{x}<br>Standard deviation: %{y}min")
+
+    fig.layout.font.family = 'Rubik'
+    fig.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(size=14, color="white"),
+        hoverlabel=dict(
+            font_size=16
+        )
+    )
+
     return fig

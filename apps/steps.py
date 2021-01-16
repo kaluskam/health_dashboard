@@ -60,8 +60,9 @@ layout = html.Div([
                                       for i in range(len(steps_summary_mean))])
                     ],
                         inverse=True,
-                        className="info-card")
-                ),
+                        className="info-card",
+                        )
+                , width=5),
                 dbc.Col(
                     dbc.Card([
                         dbc.CardHeader("Maximum distance"),
@@ -71,39 +72,44 @@ layout = html.Div([
                     ],
                         inverse=True,
                         className="info-card")
-                ),
-            ], style={"margin-top": "20px", "margin-bottom": "20px"})
+                , width=5),
+            ], style={"margin-top": "40px", "margin-bottom": "40px", "justify-content": "center"})
         ]),
 
-        html.Label('Choose type'),
-        dcc.RadioItems(
-            id="slct_type",
-            options=[
-                {'label': 'steps', 'value': 'step_count'},
-                {'label': 'distance', 'value': 'distance'}
-            ],
-            value='step_count',
-        ),
-        html.Label('Select period'),
-        dcc.Dropdown(id="slct_period",
-                     options=[
-                         {"label": "daily", "value": "daily"},
-                         {"label": "weekly", "value": "weekly"}],
-                     multi=False,
-                     value="daily",
-                     style={'width': "40%"}
-                     ),
+        dbc.Row([
+            dbc.Col([
+            html.Label('Choose type'),
+            dcc.RadioItems(
+                id="slct_type",
+                options=[
+                    {'label': '  steps', 'value': 'step_count'},
+                    {'label': '  distance', 'value': 'distance'}
+                ],
+                value='step_count',
+                className="radio-items"
+            ),
+            html.Label('Select period'),
+            dcc.Dropdown(id="slct_period",
+                         options=[
+                             {"label": "daily", "value": "daily"},
+                             {"label": "weekly", "value": "weekly"}],
+                         multi=False,
+                         value="daily",
+                         style={'width': "40%", "color:": "black"}
+                         ),
 
-        dcc.Checklist(id="top3",
-                      options=[
-                          {'label': 'Show top 3', 'value': 'top'}
-                      ],
-                      ),
-
-        dcc.Graph(
-            id='barplot',
-            style={'width': "75%"}
-        ),
+            dcc.Checklist(id="top3",
+                          options=[
+                              {'label': '   Show top 3', 'value': 'top'}
+                          ],
+                          ),
+            ], width= 3),
+            dbc.Col(
+            dcc.Graph(
+                id='barplot',
+                style={'width': "100%"}
+            ), width=9, style={'margin': '0'}),
+        ], style={"margin-top": "40px"})
     ])
 ])
 
@@ -121,14 +127,23 @@ def update_graph(option_slctd, period_slctd, top):
     print(period_slctd)
     print(top)
 
+    colors_1 = ['#52057b', '#892cdc', '#bc6ff1']
+
     df = steps.copy()
     if period_slctd == "daily":
         fig = px.bar(df, x="date", y=option_slctd, color="user", barmode="group", labels={'step_count': 'step count'},
-                     title="step count" if str(option_slctd) == "step_count" else "distance")
+                     title="step count" if str(option_slctd) == "step_count" else "distance",
+                     color_discrete_sequence=colors_1)
+        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(size=14, color="white"))
+        fig.layout.font.family = 'Rubik'
     elif period_slctd == "weekly":
         fig = px.bar(steps_weekly, x="date", y=option_slctd, color="user", barmode="group",
                      labels={'step_count': 'step count'},
-                     title="step count" if str(option_slctd) == "step_count" else "distance")
+                     title="step count" if str(option_slctd) == "step_count" else "distance",
+                     color_discrete_sequence=colors_1)
+
+        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(size=14, color="white"))
+        fig.layout.font.family = 'Rubik'
     if top == ['top'] and period_slctd == "daily":
         color = []
         for i in range(len(steps)):
@@ -154,36 +169,41 @@ def update_graph(option_slctd, period_slctd, top):
                     x=dff["date"].loc[dff['color'] == 'normal_1'],
                     y=dff[str(option_slctd)].loc[dff['color'] == 'normal_1'],
                     offsetgroup=0,
+                    marker=dict(color=colors_1[0])
                 ),
                 go.Bar(
                     name="Marysia",
                     x=dff["date"].loc[dff['color'] == 'normal_2'],
                     y=dff[str(option_slctd)].loc[dff['color'] == 'normal_2'],
                     offsetgroup=1,
+                    marker=dict(color=colors_1[2])
                 ),
                 go.Bar(
                     name="Top 3 - Marcelina",
                     x=dff["date"].loc[dff['color'] == 'max_1'],
                     y=dff[str(option_slctd)].loc[dff['color'] == 'max_1'],
                     offsetgroup=0,
-                    base=dff["date"].loc[dff['color'] == 'max_1']
+                    base=dff["date"].loc[dff['color'] == 'max_1'],
+                    marker=dict(color="green")
                 ),
                 go.Bar(
                     name="Top 3 - Marysia",
                     x=dff["date"].loc[dff['color'] == 'max_2'],
                     y=dff[str(option_slctd)].loc[dff['color'] == 'max_2'],
                     offsetgroup=1,
-                    # base=dff["date"].loc[dff['color'] == 'max_2'],
+                    marker=dict(color="lime")
                 ),
             ],
             layout=go.Layout(
                 yaxis_title="date",
                 xaxis_title="step count" if str(option_slctd) == "step_count" else "distance",
-                title="step count" if str(option_slctd) == "step_count" else "distance"
-
+                title="step count" if str(option_slctd) == "step_count" else "distance",
+                font = dict(size=14, color="white"),
             )
         )
         fig = fig3
+        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(size=14))
+        fig.layout.font.family = 'Rubik'
         # fig = px.bar(dff, x="date", y=option_slctd, color="color", barmode="group").update_layout(bargap=0.15)
 
     return fig
