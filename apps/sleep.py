@@ -14,8 +14,11 @@ df_sleep = pd.read_csv("data/sleep.csv")
 df_sleep_summary = pd.read_csv("data/sleep_summary.csv")
 df_sleep_regularity = pd.read_csv("data/sleep_regularity.csv")
 
-dates = df_sleep['start_date'].unique()
-dates.sort()
+dates1 = df_sleep['start_date'].unique()
+dates1.sort()
+dates = []
+for i in range(0, len(dates1), 2):
+    dates.append(dates1[i])
 date_marks = {i: dates[i] for i in range(0, len(dates))}
 
 fig = plot_generator.sleep_bar_plot_for_person(df_sleep, 'Marysia', date_marks[0], date_marks[len(dates) - 1])
@@ -166,7 +169,7 @@ def update_sleep_bar_chart(show, person, time_interval):
                                                    date_marks[time_interval[1]])
     if show and show[0] == 'True':
         avg_dur = df['sleep_duration'].mean()
-        fig.add_hline(y=avg_dur, line_width=5, line_dash="dash", line_color="green", annotation_text="average")
+        fig.add_hline(y=avg_dur, line_width=5, line_dash="dash", line_color="white", annotation_text="average")
     return fig
 
 

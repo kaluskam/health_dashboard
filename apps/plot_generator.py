@@ -1,12 +1,14 @@
 import plotly.express as px
 import plotly.graph_objects as go
+import pandas as pd
 from data import func_utils
 
-colors_1 = ['#52057b', '#892cdc', '#bc6ff1']
+colors_1 = ['#52057b', '#761FC1', '#BB6AF0', '#D4A2F6']
 clock_colors = ['#52057b', '#892cdc']
 
 
 def sleep_bar_plot_for_person(df, person, start, end):
+    df = df.sort_values(by=['quality'], ascending=False)
     df['quality'] = df['quality'].astype('str')
     df = df[(df.start_date > start) & (df.start_date < end)]
 
@@ -25,7 +27,8 @@ def sleep_bar_plot_for_person(df, person, start, end):
         font=dict(size=14, color="white"),
         hoverlabel=dict(
             font_size=16
-        )
+        ),
+        legend_traceorder="grouped+reversed"
     )
     fig.update_traces(hovertemplate="Bed time: %{x}<br>Sleep duration: %{y}<br>")
     fig.layout.font.family = 'Rubik'
@@ -58,12 +61,6 @@ def sleep_clock_dict(df):
                                                      2)) + 'h')])
         clock_fig.update_layout(layout)
         clock_fig.update_traces(marker=dict(colors=clock_colors, line=dict(color='white', width=1)), hoverinfo='skip')
-        # clock_fig.add_hline(y=1, annotation_text='6:00', annotation_font_color='white', line_color='white')
-        # clock_fig.add_hline(y=1.91, annotation_text='12:00', annotation_font_color='white', line_color='white',
-        #                     annotation_position='top left')
-        # clock_fig.add_vline(x=1, annotation_text='24:00', annotation_font_color='white', line_color='white')
-        # clock_fig.add_vline(x=1, annotation_text='18:00', annotation_font_color='white',
-        #                     annotation_position='bottom right', line_color='white')
         clock_fig.update_xaxes(side='left', type='category')
         clock_fig.update_yaxes(side='bottom', type='category')
         clocks[row['user']] = clock_fig
@@ -71,19 +68,19 @@ def sleep_clock_dict(df):
         clock_fig.add_shape(x0=0, x1=1, y0=0.5, y1=0.5, line=dict(color='white'), xref='paper', yref='paper')
         clock_fig.add_shape(x0=0.5, x1=0.5, y0=0, y1=1, line=dict(color='white'), xref='paper', yref='paper')
 
-        clock_fig.add_annotation(text="3:00",
+        clock_fig.add_annotation(text="6:00",
                                  xref="paper", yref="paper",
                                  x=0.95, y=0.54, showarrow=False, font=dict(color="white", size=14))
 
-        clock_fig.add_annotation(text="9:00",
+        clock_fig.add_annotation(text="18:00",
                                  xref="paper", yref="paper",
                                  x=0.05, y=0.54, showarrow=False, font=dict(color="white", size=14))
 
-        clock_fig.add_annotation(text="6:00",
+        clock_fig.add_annotation(text="12:00",
                                  xref="paper", yref="paper",
                                  x=0.57, y=0.05, showarrow=False, font=dict(color="white", size=14))
 
-        clock_fig.add_annotation(text="12:00",
+        clock_fig.add_annotation(text="24:00",
                                  xref="paper", yref="paper",
                                  x=0.58, y=0.95, showarrow=False, font=dict(color="white", size=14))
 
