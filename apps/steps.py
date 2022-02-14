@@ -7,7 +7,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import datetime as dt
-import dash_table_experiments as dte
+
 import dash_table
 
 import plotly.graph_objs as go
@@ -20,6 +20,7 @@ from app import app
 steps_marcelina = pd.read_csv("data/steps.csv")
 steps_marysia = pd.read_csv("data/steps_marysia.csv")
 steps = pd.concat([steps_marcelina, steps_marysia], join="inner", ignore_index=True)
+
 
 steps_weekly = steps.copy()
 date = []
